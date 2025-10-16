@@ -37,6 +37,8 @@ CSRF_TRUSTED_ORIGINS = os.getenv("CSRF_TRUSTED_ORIGINS", "https://127.0.0.1,http
 # Application definition
 
 INSTALLED_APPS = [
+    # My apps
+    'core',
     # Default django apps
     'django.contrib.admin',
     'django.contrib.auth',
