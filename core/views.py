@@ -38,3 +38,12 @@ def new_cronjob(request):
 
     else:
         return JsonResponse({"error": "POST request required"}, status=405)
+
+@csrf_exempt  # TODO: Remove this when will use forms, now disabled for postman testing
+def delete_cronjob(request, id):
+    if request.method == "DELETE":
+        deleted, _ = CronJob.objects.filter(id=id).delete()
+        if deleted:
+            return JsonResponse({"deleted": id})
+        return JsonResponse({"error": "CronJob not found"}, status=404)
+    return JsonResponse({"error": "DELETE request required"}, status=405)
