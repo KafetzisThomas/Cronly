@@ -8,6 +8,14 @@ from .models import CronJob
 
 
 @csrf_exempt  # TODO: Remove this when will use forms, now disabled for postman testing
+def list_cronjobs(request):
+    if request.method == "GET":
+        jobs = list(CronJob.objects.values())
+        return JsonResponse(jobs, safe=False)
+    else:
+        return JsonResponse({"error": "GET request required"}, status=405)
+
+@csrf_exempt  # TODO: Remove this when will use forms, now disabled for postman testing
 def new_cronjob(request):
     if request.method == "POST":
         body = json.loads(request.body)
