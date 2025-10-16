@@ -1,0 +1,17 @@
+{% extends "cronjobs/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}New CronJob{% endblock title %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h4>Enter New CronJob</h4>
+        <hr class="border-dark">
+
+        <form action="{% url 'core:new_cronjob' %}" method="POST" class="form">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button type="submit" class="btn btn-info w-100">Save</button>
+        </form>
+    </div>
+{% endblock content %}

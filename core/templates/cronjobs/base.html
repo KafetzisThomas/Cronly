@@ -1,0 +1,76 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <!-- Webpage title -->
+    <title>Cronly - {% block title %}{% endblock title %}</title>
+
+    <!-- Bootstrap CSS -->
+    {% load django_bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
+</head>
+
+<body>
+    <!-- navbar start -->
+    <nav class="navbar navbar-expand-lg bg-dark border-bottom border-body" data-bs-theme="dark">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'core:list_cronjobs' %}">Cronly</a>
+
+            <button class="navbar-toggler navbar-dark" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-lg-0">
+
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'core:list_cronjobs' %}">All CronJobs</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/new_cronjob' %}active{% endif %}" href="{% url 'core:new_cronjob' %}">New CronJob</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- navbar end -->
+
+    <!-- content start -->
+    {% block content %}{% endblock content %}
+    <!-- content end -->
+
+    <!-- footer start -->
+    {% block footer %}
+        <footer class="footer text-dark py-3" {{ footer_class|default:'' }}>
+            <div class="container">
+                <hr class="border-dark mb-1">
+                <div class="row text-center mt-3">
+                    <p class="mb-1">&copy; 2025 KafetzisThomas</p>
+                </div>
+            </div>
+        </footer>
+    {% endblock footer %}
+
+{#    for future fixed-bottom configuration#}
+{#    {% with footer_class="fixed-bottom" %}#}
+{#        {% block footer %}{{ block.super }}{% endblock %}#}
+{#    {% endwith %}#}
+
+    <!-- footer end -->
+
+</body>
+
+</html>

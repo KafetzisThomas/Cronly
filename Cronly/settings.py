@@ -39,6 +39,11 @@ CSRF_TRUSTED_ORIGINS = os.getenv("CSRF_TRUSTED_ORIGINS", "https://127.0.0.1,http
 INSTALLED_APPS = [
     # My apps
     'core',
+    # Third-Party apps
+    "django_extensions",
+    "django_bootstrap5",
+    "crispy_forms",
+    "crispy_bootstrap5",
     # Default django apps
     'django.contrib.admin',
     'django.contrib.auth',
@@ -77,6 +82,10 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'Cronly.wsgi.application'
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 
 # Database

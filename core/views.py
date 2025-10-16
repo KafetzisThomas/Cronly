@@ -1,49 +1,35 @@
-import json
-
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
+from django.shortcuts import render, redirect
 from pythonping import ping
 
+from .forms import CronJobForm
 from .models import CronJob
 
 
-@csrf_exempt  # TODO: Remove this when will use forms, now disabled for postman testing
 def list_cronjobs(request):
-    if request.method == "GET":
-        jobs = list(CronJob.objects.values())
-        return JsonResponse(jobs, safe=False)
-    else:
-        return JsonResponse({"error": "GET request required"}, status=405)
+    cronjobs = CronJob.objects.all()
+    return render(request, "cronjobs/list-cronjobs.html", {"cronjobs": cronjobs})
 
-@csrf_exempt  # TODO: Remove this when will use forms, now disabled for postman testing
 def new_cronjob(request):
+    form = CronJobForm()
     if request.method == "POST":
-        body = json.loads(request.body)
-        target = body.get("target")
+        form = CronJobForm(request.POST)
+        if form.is_valid():
+            target = form.cleaned_data["target"]
+            response = ping(target, count=4)
 
-        if not target:
-            return JsonResponse({"error": "No target provided"}, status=400)
+            CronJob.objects.create(
+                target=target, avg_rtt_ms=response.rtt_avg_ms,
+                min_rtt_ms=response.rtt_min_ms,max_rtt_ms=response.rtt_max_ms,
+            )
 
-        response = ping(target, count=4)
+            return redirect("core:list_cronjobs")
 
-        job = CronJob.objects.create(
-            target=target, avg_rtt_ms=response.rtt_avg_ms,
-            min_rtt_ms=response.rtt_min_ms,max_rtt_ms=response.rtt_max_ms,
-        )
+    return render(request, "cronjobs/new-cronjob.html", {"form": form})
 
-        return JsonResponse({
-            "id": job.id, "target": job.target, "avg_rtt_ms": job.avg_rtt_ms,
-            "min_rtt_ms": job.min_rtt_ms, "max_rtt_ms": job.max_rtt_ms, "created_at": job.created_at,
-        })
-
-    else:
-        return JsonResponse({"error": "POST request required"}, status=405)
-
-@csrf_exempt  # TODO: Remove this when will use forms, now disabled for postman testing
-def delete_cronjob(request, id):
-    if request.method == "DELETE":
-        deleted, _ = CronJob.objects.filter(id=id).delete()
-        if deleted:
-            return JsonResponse({"deleted": id})
-        return JsonResponse({"error": "CronJob not found"}, status=404)
-    return JsonResponse({"error": "DELETE request required"}, status=405)
+# TODO: Uncomment this when adding a delete button to the form
+# def delete_cronjob(request, id):
+#     job = get_object_or_404(CronJob, id=id)
+#     if request.method == "POST":
+#         job.delete()
+#         return redirect("list_cronjobs")
+#     return None
