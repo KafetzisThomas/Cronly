@@ -1,4 +1,7 @@
+import json
+
 from django.shortcuts import render, redirect
+from django_celery_beat.models import PeriodicTask, IntervalSchedule
 from pythonping import ping
 
 from .forms import CronJobForm
@@ -17,9 +20,22 @@ def new_cronjob(request):
             target = form.cleaned_data["target"]
             response = ping(target, count=4)
 
-            CronJob.objects.create(
+            job = CronJob.objects.create(
                 target=target, avg_rtt_ms=response.rtt_avg_ms,
-                min_rtt_ms=response.rtt_min_ms,max_rtt_ms=response.rtt_max_ms,
+                min_rtt_ms=response.rtt_min_ms, max_rtt_ms=response.rtt_max_ms,
+                interval_seconds=form.cleaned_data.get("interval_seconds", 300)
+            )
+
+            schedule, created = IntervalSchedule.objects.get_or_create(
+                every=job.interval_seconds,
+                period=IntervalSchedule.SECONDS
+            )
+
+            PeriodicTask.objects.create(
+                interval=schedule,
+                name=f"ping_job_{job.id}",
+                task="core.tasks.ping_target",
+                args=json.dumps([job.id])
             )
 
             return redirect("core:list_cronjobs")

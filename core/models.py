@@ -5,6 +5,7 @@ class CronJob(models.Model):
     avg_rtt_ms = models.FloatField()
     min_rtt_ms = models.FloatField()
     max_rtt_ms = models.FloatField()
+    interval_seconds = models.IntegerField(default=300)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
