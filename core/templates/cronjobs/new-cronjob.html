@@ -5,7 +5,7 @@
 
 {% block content %}
     <div class="container mt-5">
-        <h4>Enter New CronJob</h4>
+        <h4>New CronJob</h4>
         <hr class="border-dark">
 
         <form action="{% url 'core:new_cronjob' %}" method="POST" class="form">
@@ -14,4 +14,17 @@
             <button type="submit" class="btn btn-info w-100">Save</button>
         </form>
     </div>
+
+    <script>
+        const intervalSelect = document.getElementById('id_interval');
+        const customInput = document.getElementById('id_custom_interval');
+
+        intervalSelect.addEventListener('change', () => {
+            if (intervalSelect.value === 'custom') {
+                customInput.style.display = 'block';
+            } else {
+                customInput.style.display = 'none';
+            }
+        });
+    </script>
 {% endblock content %}
