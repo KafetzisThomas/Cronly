@@ -1,5 +1,6 @@
 import json
 
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django_celery_beat.models import PeriodicTask, IntervalSchedule
 from pythonping import ping
@@ -8,10 +9,12 @@ from .forms import CronJobForm
 from .models import CronJob
 
 
+@login_required
 def list_cronjobs(request):
-    cronjobs = CronJob.objects.all()
-    return render(request, "cronjobs/list-cronjobs.html", {"cronjobs": cronjobs})
+    cronjobs = CronJob.objects.filter(user=request.user)
+    return render(request, "core/list-cronjobs.html", {"cronjobs": cronjobs})
 
+@login_required()
 def new_cronjob(request):
     form = CronJobForm()
     if request.method == "POST":
@@ -21,12 +24,12 @@ def new_cronjob(request):
             response = ping(target, count=4)
 
             job = CronJob.objects.create(
-                target=target, avg_rtt_ms=response.rtt_avg_ms,
+                user=request.user, target=target, avg_rtt_ms=response.rtt_avg_ms,
                 min_rtt_ms=response.rtt_min_ms, max_rtt_ms=response.rtt_max_ms,
-                interval_seconds=form.cleaned_data.get("interval_seconds", 300)
+                interval_seconds=form.cleaned_data.get("interval_seconds", 300),
             )
 
-            schedule, created = IntervalSchedule.objects.get_or_create(
+            schedule, _ = IntervalSchedule.objects.get_or_create(
                 every=job.interval_seconds,
                 period=IntervalSchedule.SECONDS
             )
@@ -40,7 +43,7 @@ def new_cronjob(request):
 
             return redirect("core:list_cronjobs")
 
-    return render(request, "cronjobs/new-cronjob.html", {"form": form})
+    return render(request, "core/new-cronjob.html", {"form": form})
 
 # TODO: Uncomment this when adding a delete button to the form
 # def delete_cronjob(request, id):

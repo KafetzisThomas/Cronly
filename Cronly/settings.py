@@ -39,6 +39,7 @@ CSRF_TRUSTED_ORIGINS = os.getenv("CSRF_TRUSTED_ORIGINS", "https://127.0.0.1,http
 INSTALLED_APPS = [
     # My apps
     'core',
+    'users',
     # Third-Party apps
     "django_celery_beat",
     "django_extensions",
@@ -69,8 +70,7 @@ ROOT_URLCONF = 'Cronly.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
-        ,
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -142,6 +142,11 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Login and logout settings
+LOGIN_URL = "users:login"
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = "/"
 
 INTERNAL_IPS = [
     "127.0.0.1",

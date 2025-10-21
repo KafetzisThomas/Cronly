@@ -34,14 +34,33 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-lg-0">
 
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'core:list_cronjobs' %}">All CronJobs</a>
-                    </li>
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'core:list_cronjobs' %}">All CronJobs</a>
+                        </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.path == '/new_cronjob' %}active{% endif %}" href="{% url 'core:new_cronjob' %}">New CronJob</a>
-                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == '/new_cronjob' %}active{% endif %}" href="{% url 'core:new_cronjob' %}">New CronJob</a>
+                        </li>
+                    {% endif %}
+                </ul>
 
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <form action="{% url 'users:logout' %}" method="POST" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="nav-link ms-lg-3">Logout</button>
+                            </form>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == '/user/login/' %}active{% endif %}" href="{% url 'users:login' %}">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link ms-lg-3 {% if request.path == '/user/register/' %}active{% endif %}" href="{% url 'users:register' %}">Register</a>
+                        </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>
@@ -63,12 +82,6 @@
             </div>
         </footer>
     {% endblock footer %}
-
-{#    for future fixed-bottom configuration#}
-{#    {% with footer_class="fixed-bottom" %}#}
-{#        {% block footer %}{{ block.super }}{% endblock %}#}
-{#    {% endwith %}#}
-
     <!-- footer end -->
 
 </body>
