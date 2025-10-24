@@ -12,7 +12,7 @@ from .models import CronJob
 @login_required
 def list_cronjobs(request):
     cronjobs = CronJob.objects.filter(user=request.user)
-    return render(request, "core/list-cronjobs.html", {"cronjobs": cronjobs})
+    return render(request, "cronly/list-cronjobs.html", {"cronjobs": cronjobs})
 
 @login_required()
 def new_cronjob(request):
@@ -37,13 +37,13 @@ def new_cronjob(request):
             PeriodicTask.objects.create(
                 interval=schedule,
                 name=f"ping_job_{job.id}",
-                task="core.tasks.ping_target",
+                task="cronly.tasks.ping_target",
                 args=json.dumps([job.id])
             )
 
-            return redirect("core:list_cronjobs")
+            return redirect("cronly:list_cronjobs")
 
-    return render(request, "core/new-cronjob.html", {"form": form})
+    return render(request, "cronly/new-cronjob.html", {"form": form})
 
 # TODO: Uncomment this when adding a delete button to the form
 # def delete_cronjob(request, id):

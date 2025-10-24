@@ -3,9 +3,9 @@ import os
 from celery import Celery
 
 # Set the default django settings module for celery
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Cronly.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'main.settings')
 
-app = Celery('Cronly')
+app = Celery('main')
 
 # Using a string here means the worker doesn't have to serialize
 # the configuration object to child processes.
@@ -30,5 +30,5 @@ def debug_task(self):
 # check if it's running, should be "PONG": redis-cli ping
 # run django server: uv run manage.py runserver
 # open 2 extra terminals and run:
-# terminal 1: celery -A Cronly worker -l info --pool=solo
-# terminal 2: celery -A Cronly beat -l info
+# terminal 1: celery -A main worker -l info --pool=solo
+# terminal 2: celery -A main beat -l info

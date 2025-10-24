@@ -23,7 +23,7 @@
     <!-- navbar start -->
     <nav class="navbar navbar-expand-lg bg-dark border-bottom border-body" data-bs-theme="dark">
         <div class="container">
-            <a class="navbar-brand" href="{% url 'core:list_cronjobs' %}">Cronly</a>
+            <a class="navbar-brand" href="{% url 'cronly:list_cronjobs' %}">Cronly</a>
 
             <button class="navbar-toggler navbar-dark" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -36,11 +36,11 @@
 
                     {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'core:list_cronjobs' %}">All CronJobs</a>
+                            <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'cronly:list_cronjobs' %}">All CronJobs</a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link {% if request.path == '/new_cronjob' %}active{% endif %}" href="{% url 'core:new_cronjob' %}">New CronJob</a>
+                            <a class="nav-link {% if request.path == '/new_cronjob' %}active{% endif %}" href="{% url 'cronly:new_cronjob' %}">New CronJob</a>
                         </li>
                     {% endif %}
                 </ul>
