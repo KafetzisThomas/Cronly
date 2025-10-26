@@ -1,4 +1,5 @@
 import json
+from urllib.parse import urlparse
 
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
@@ -21,10 +22,13 @@ def new_cronjob(request):
         form = CronJobForm(request.POST)
         if form.is_valid():
             target = form.cleaned_data["target"]
-            response = ping(target, count=4)
+
+            host = urlparse(target).netloc
+            domain = host.split(":")[0].lstrip("www.")
+            response = ping(domain, count=4)
 
             job = CronJob.objects.create(
-                user=request.user, target=target, avg_rtt_ms=response.rtt_avg_ms,
+                user=request.user, target=domain, avg_rtt_ms=response.rtt_avg_ms,
                 min_rtt_ms=response.rtt_min_ms, max_rtt_ms=response.rtt_max_ms,
                 interval_seconds=form.cleaned_data.get("interval_seconds", 300),
             )

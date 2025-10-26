@@ -32,7 +32,7 @@ class CronJobForm(forms.ModelForm):
         model = CronJob
         fields = ["target", "interval_seconds", "custom_interval"]
         widgets = {
-            "target": forms.TextInput(attrs={"class": "form-control", "placeholder": "Enter target", "autofocus": True})
+            "target": forms.TextInput(attrs={"class": "form-control", "placeholder": "Enter target URL", "autofocus": True})
         }
 
     def clean(self):

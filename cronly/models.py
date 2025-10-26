@@ -3,7 +3,7 @@ from django.db import models
 
 
 class CronJob(models.Model):
-    target = models.CharField(max_length=100)
+    target = models.URLField()
     avg_rtt_ms = models.FloatField()
     min_rtt_ms = models.FloatField()
     max_rtt_ms = models.FloatField()

@@ -11,14 +11,14 @@
 
         <table class="table table-bordered table-striped">
             <thead class="table-dark">
-            <tr class="text-center">
-                <th>Target Host</th>
-                <th>Avg Ping (ms)</th>
-                <th>Min Ping (ms)</th>
-                <th>Max Ping (ms)</th>
-                <th>Started</th>
-                <th>Last Checked</th>
-            </tr>
+                <tr class="text-center">
+                    <th>Target Host</th>
+                    <th>Avg Ping (ms)</th>
+                    <th>Min Ping (ms)</th>
+                    <th>Max Ping (ms)</th>
+                    <th>Started</th>
+                    <th>Last Checked</th>
+                </tr>
             </thead>
 
             <tbody>
@@ -33,7 +33,7 @@
                     </tr>
                 {% empty %}
                     <tr>
-                        <td colspan="5" class="text-center">No Cronjobs found.</td>
+                        <td colspan="6" class="text-center">No Cronjobs found.</td>
                     </tr>
                 {% endfor %}
             </tbody>
