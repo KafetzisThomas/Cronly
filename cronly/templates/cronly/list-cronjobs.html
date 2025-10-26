@@ -6,17 +6,18 @@
     <meta http-equiv="refresh" content="5">
 
     <div class="container mt-5">
-        <h3 class="mt-5 text-center">All CronJobs</h3>
+        <h3 class="mt-5 text-center">All Cronjobs</h3>
         <hr class="border-dark">
 
         <table class="table table-bordered table-striped">
             <thead class="table-dark">
             <tr class="text-center">
-                <th>Target</th>
-                <th>Average Ping (ms)</th>
-                <th>Minimum Ping (ms)</th>
-                <th>Maximum Ping (ms)</th>
-                <th>Date</th>
+                <th>Target Host</th>
+                <th>Avg Ping (ms)</th>
+                <th>Min Ping (ms)</th>
+                <th>Max Ping (ms)</th>
+                <th>Started</th>
+                <th>Last Checked</th>
             </tr>
             </thead>
 
@@ -28,10 +29,11 @@
                         <td>{{ job.min_rtt_ms }}</td>
                         <td>{{ job.max_rtt_ms }}</td>
                         <td>{{ job.created_at|date:"M. d, Y, h:i A" }}</td>
+                        <td>{{ job.last_pinged_at|date:"M. d, Y, h:i A" }}</td>
                     </tr>
                 {% empty %}
                     <tr>
-                        <td colspan="5" class="text-center">No CronJobs found.</td>
+                        <td colspan="5" class="text-center">No Cronjobs found.</td>
                     </tr>
                 {% endfor %}
             </tbody>

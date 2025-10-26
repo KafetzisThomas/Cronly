@@ -36,11 +36,11 @@
 
                     {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'cronly:list_cronjobs' %}">All CronJobs</a>
+                            <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'cronly:list_cronjobs' %}">All Cronjobs</a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link {% if request.path == '/new_cronjob' %}active{% endif %}" href="{% url 'cronly:new_cronjob' %}">New CronJob</a>
+                            <a class="nav-link {% if request.path == '/new_cronjob' %}active{% endif %}" href="{% url 'cronly:new_cronjob' %}">New Cronjob</a>
                         </li>
                     {% endif %}
                 </ul>

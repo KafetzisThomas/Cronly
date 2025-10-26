@@ -9,6 +9,7 @@ class CronJob(models.Model):
     max_rtt_ms = models.FloatField()
     interval_seconds = models.IntegerField(default=300)
     created_at = models.DateTimeField(auto_now_add=True)
+    last_pinged_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
