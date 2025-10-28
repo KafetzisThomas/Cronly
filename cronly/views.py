@@ -1,8 +1,9 @@
 import json
 from urllib.parse import urlparse
 
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django_celery_beat.models import PeriodicTask, IntervalSchedule
 from pythonping import ping
 
@@ -49,10 +50,8 @@ def new_cronjob(request):
 
     return render(request, "cronly/new-cronjob.html", {"form": form})
 
-# TODO: Uncomment this when adding a delete button to the form
-# def delete_cronjob(request, id):
-#     job = get_object_or_404(CronJob, id=id)
-#     if request.method == "POST":
-#         job.delete()
-#         return redirect("list_cronjobs")
-#     return None
+def delete_cronjob(request, job_id):
+    job = get_object_or_404(CronJob, id=job_id, user=request.user)
+    job.delete()
+    messages.success(request, "CronJob deleted successfully.")
+    return redirect("cronly:list_cronjobs")
