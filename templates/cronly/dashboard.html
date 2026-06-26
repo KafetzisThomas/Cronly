@@ -1,4 +1,4 @@
-{% extends "cronly/base.html" %}
+{% extends "base.html" %}
 
 {% block title %}All CronJobs{% endblock title %}
 
@@ -40,8 +40,7 @@
                         <td>
                             <form action="{% url 'cronly:delete_cronjob' job.id %}" method="POST">
                                 {% csrf_token %}
-                                <button type="submit" class="btn btn-danger btn-sm"
-                                        onclick="return confirm('Are you sure you want to delete this cronjob?');">
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this cronjob?');">
                                     Delete
                                 </button>
                             </form>

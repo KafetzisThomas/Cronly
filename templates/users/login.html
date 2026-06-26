@@ -1,4 +1,4 @@
-{% extends "cronly/base.html" %}
+{% extends "base.html" %}
 {% load crispy_forms_tags %}
 
 {% block title %}Login{% endblock title %}
@@ -8,7 +8,7 @@
         <h4>Login</h4>
         <hr class="border-dark">
 
-        <form action="{% url 'users:login' %}" method="POST" class="form">
+        <form action="{% url 'users:login' %}" method="POST">
             {% if messages %}
                 {% for message in messages %}
                     <div class="alert alert-success">{{ message }}</div>

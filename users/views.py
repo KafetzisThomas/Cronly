@@ -1,17 +1,15 @@
-from django.contrib import messages
 from django.shortcuts import render, redirect
-
-from .forms import UserRegisterForm
-
+from django.contrib import messages
+from .forms import RegistrationForm
 
 def register(request):
     if request.method == 'POST':
-        form = UserRegisterForm(request.POST)
+        form = RegistrationForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, "Account successfully created! You're now able to login.")
+            messages.success(request, "Account successfully created.")
             return redirect('users:login')
     else:
-        form = UserRegisterForm()
+        form = RegistrationForm()
 
-    return render(request, 'registration/register.html', {'form': form})
+    return render(request, 'users/register.html', {'form': form})

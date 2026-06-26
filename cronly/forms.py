@@ -1,5 +1,4 @@
 from django import forms
-
 from .models import CronJob
 
 INTERVAL_CHOICES = [
@@ -11,6 +10,7 @@ INTERVAL_CHOICES = [
     ("2592000", "Monthly"),
     ("custom", "Custom"),
 ]
+
 
 class CronJobForm(forms.ModelForm):
     interval_seconds = forms.ChoiceField(

@@ -1,9 +1,7 @@
 from celery import shared_task
-from django.utils import timezone
 from pythonping import ping
-
+from django.utils import timezone
 from .models import CronJob
-
 
 @shared_task
 def ping_target(cronjob_id):
