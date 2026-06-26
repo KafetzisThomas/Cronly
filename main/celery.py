@@ -26,9 +26,9 @@ def debug_task(self):
     print(f'Request: {self.request!r}')
 
 
-# start redis: sudo service redis-server start
+# start redis: sudo service redis-server start for linux, docker image for windows
 # check if it's running, should be "PONG": redis-cli ping
 # run django server: uv run manage.py runserver
 # open 2 extra terminals and run:
-# terminal 1: celery -A main worker -l info --pool=solo
-# terminal 2: celery -A main beat -l info
+# terminal 1: uv run celery -A main worker -l info --pool=solo
+# terminal 2: uv run celery -A main beat -l info
