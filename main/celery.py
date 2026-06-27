@@ -1,5 +1,6 @@
-import os
+# https://docs.celeryq.dev/en/v5.6.3/django/first-steps-with-django.html
 
+import os
 from celery import Celery
 
 # Set the default django settings module for celery
