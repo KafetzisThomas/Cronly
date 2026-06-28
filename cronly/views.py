@@ -1,16 +1,41 @@
 import json
-from pythonping import ping
+from datetime import datetime
 from urllib.parse import urlparse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django_celery_beat.models import PeriodicTask, IntervalSchedule
+from main.redis_client import client as redis_client
 from .models import CronJob
 from .forms import CronJobForm
 
 @login_required
 def dashboard(request):
     cronjobs = CronJob.objects.filter(user=request.user)
+
+    for job in cronjobs:
+        redis_key = f"cronjob:{job.id}:pings"
+
+        latest_ping_json = redis_client.lindex(redis_key, 0)
+        if latest_ping_json:
+            latest_ping = json.loads(latest_ping_json)
+
+            job.current_avg = latest_ping.get("avg_rtt_ms")
+            job.current_min = latest_ping.get("min_rtt_ms")
+            job.current_max = latest_ping.get("max_rtt_ms")
+            job.status = "Up" if latest_ping.get("success") else "Down"
+
+            # convert unix timestamp to readable format
+            timestamp = latest_ping.get("timestamp")
+            if timestamp:
+                job.current_last_checked = datetime.fromtimestamp(timestamp)
+        else:
+            job.current_avg = "Pending"
+            job.current_min = "Pending"
+            job.current_max = "Pending"
+            job.status = "Pending"
+            job.current_last_checked = None
+
     return render(request, "cronly/dashboard.html", {"cronjobs": cronjobs})
 
 @login_required
@@ -21,13 +46,9 @@ def new_cronjob(request):
             target = form.cleaned_data["target"]
             host = urlparse(target).netloc
             domain = host.split(":")[0].lstrip("www.")
-            response = ping(domain, count=4)
 
             job = CronJob.objects.create(
                 target=domain,
-                avg_rtt_ms=response.rtt_avg_ms,
-                min_rtt_ms=response.rtt_min_ms,
-                max_rtt_ms=response.rtt_max_ms,
                 interval_seconds=form.cleaned_data.get("interval_seconds", 300),
                 user=request.user,
             )
@@ -41,7 +62,7 @@ def new_cronjob(request):
                 interval=schedule,
                 name=f"ping_job_{job.id}",
                 task="cronly.tasks.ping_target",
-                args=json.dumps([job.id])
+                args=json.dumps([job.id, domain])
             )
             return redirect("cronly:dashboard")
     else:
@@ -50,8 +71,15 @@ def new_cronjob(request):
     return render(request, "cronly/new_cronjob.html", {"form": form})
 
 @login_required
-def delete_cronjob(request, job_id):
-    job = get_object_or_404(CronJob, id=job_id, user=request.user)
+def delete_cronjob(request, pk):
+    job = get_object_or_404(CronJob, id=pk, user=request.user)
+
+    PeriodicTask.objects.filter(name=f"ping_job_{job.id}").delete()
+
+    redis_key = f"cronjob:{job.id}:pings"
+    redis_client.delete(redis_key)
+
     job.delete()
+
     messages.success(request, "Cronjob deleted successfully.")
     return redirect("cronly:dashboard")

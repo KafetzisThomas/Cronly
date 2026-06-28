@@ -24,7 +24,8 @@
                     <th>Max Ping (ms)</th>
                     <th>Started</th>
                     <th>Last Checked</th>
-                    <th></th>
+                    <th>Status</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
 
@@ -32,11 +33,29 @@
                 {% for job in cronjobs %}
                     <tr class="text-center">
                         <td>{{ job.target }}</td>
-                        <td>{{ job.avg_rtt_ms }}</td>
-                        <td>{{ job.min_rtt_ms }}</td>
-                        <td>{{ job.max_rtt_ms }}</td>
+                        <td>{{ job.current_avg }}</td>
+                        <td>{{ job.current_min }}</td>
+                        <td>{{ job.current_max }}</td>
                         <td>{{ job.created_at|date:"M. d, Y, h:i A" }}</td>
-                        <td>{{ job.last_pinged_at|date:"M. d, Y, h:i A" }}</td>
+
+                        <td>
+                            {% if job.current_last_checked %}
+                                {{ job.current_last_checked|date:"M. d, Y, h:i A" }}
+                            {% else %}
+                                Waiting for first run...
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {% if job.status == 'Up' %}
+                                <span class="badge bg-success">Up</span>
+                            {% elif job.status == 'Down' %}
+                                <span class="badge bg-danger">Down</span>
+                            {% else %}
+                                <span class="badge bg-secondary">Pending</span>
+                            {% endif %}
+                        </td>
+
                         <td>
                             <form action="{% url 'cronly:delete_cronjob' job.id %}" method="POST">
                                 {% csrf_token %}
@@ -48,7 +67,7 @@
                     </tr>
                 {% empty %}
                     <tr>
-                        <td colspan="7" class="text-center">No Cronjobs found.</td>
+                        <td colspan="8" class="text-center">No Cronjobs found.</td>
                     </tr>
                 {% endfor %}
             </tbody>
