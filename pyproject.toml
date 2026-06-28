@@ -1,7 +1,7 @@
 [project]
 name = "cronly"
 version = "0.1.0"
-description = "Add your description here"
+description = "A high-performance uptime monitoring tool."
 requires-python = ">=3.12"
 dependencies = [
     "celery>=5.6.3",
