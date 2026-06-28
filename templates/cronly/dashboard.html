@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 
-{% block title %}All CronJobs{% endblock title %}
+{% block title %}All Monitors{% endblock title %}
 
 {% block content %}
     <meta http-equiv="refresh" content="5">
 
     <div class="container mt-5">
-        <h3 class="mt-5 text-center">All Cronjobs</h3>
+        <h3 class="mt-5 text-center">All Monitors</h3>
         <hr class="border-dark">
 
         {% if messages %}
@@ -30,7 +30,7 @@
             </thead>
 
             <tbody>
-                {% for job in cronjobs %}
+                {% for job in monitors %}
                     <tr class="text-center">
                         <td>{{ job.target }}</td>
                         <td>{{ job.current_avg }}</td>
@@ -57,9 +57,9 @@
                         </td>
 
                         <td>
-                            <form action="{% url 'cronly:delete_cronjob' job.id %}" method="POST">
+                            <form action="{% url 'cronly:delete_monitor' job.id %}" method="POST">
                                 {% csrf_token %}
-                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this cronjob?');">
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this monitor?');">
                                     Delete
                                 </button>
                             </form>
@@ -67,7 +67,7 @@
                     </tr>
                 {% empty %}
                     <tr>
-                        <td colspan="8" class="text-center">No Cronjobs found.</td>
+                        <td colspan="8" class="text-center">No monitors found.</td>
                     </tr>
                 {% endfor %}
             </tbody>

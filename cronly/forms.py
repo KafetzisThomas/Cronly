@@ -1,5 +1,5 @@
 from django import forms
-from .models import CronJob
+from .models import Monitor
 
 INTERVAL_CHOICES = [
     ("60", "Every minute"),
@@ -12,7 +12,7 @@ INTERVAL_CHOICES = [
 ]
 
 
-class CronJobForm(forms.ModelForm):
+class MonitorForm(forms.ModelForm):
     interval_seconds = forms.ChoiceField(
         choices=INTERVAL_CHOICES, widget=forms.Select(attrs={"class": "form-select", "id": "id_interval"})
     )
@@ -29,7 +29,7 @@ class CronJobForm(forms.ModelForm):
     )
 
     class Meta:
-        model = CronJob
+        model = Monitor
         fields = ["target", "interval_seconds", "custom_interval"]
         widgets = {
             "target": forms.TextInput(attrs={"class": "form-control", "placeholder": "Enter target URL", "autofocus": True})

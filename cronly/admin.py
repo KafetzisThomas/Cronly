@@ -1,4 +1,4 @@
 from django.contrib import admin
-from .models import CronJob
+from .models import Monitor
 
-admin.site.register(CronJob)
+admin.site.register(Monitor)

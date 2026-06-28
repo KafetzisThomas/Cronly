@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 
 
-class CronJob(models.Model):
+class Monitor(models.Model):
     target = models.URLField()
     interval_seconds = models.IntegerField(default=300)
     created_at = models.DateTimeField(auto_now_add=True)

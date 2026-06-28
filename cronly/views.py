@@ -6,15 +6,15 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django_celery_beat.models import PeriodicTask, IntervalSchedule
 from main.redis_client import client as redis_client
-from .models import CronJob
-from .forms import CronJobForm
+from .models import Monitor
+from .forms import MonitorForm
 
 @login_required
 def dashboard(request):
-    cronjobs = CronJob.objects.filter(user=request.user)
+    monitors = Monitor.objects.filter(user=request.user)
 
-    for job in cronjobs:
-        redis_key = f"cronjob:{job.id}:pings"
+    for job in monitors:
+        redis_key = f"monitor:{job.id}:pings"
 
         latest_ping_json = redis_client.lindex(redis_key, 0)
         if latest_ping_json:
@@ -36,18 +36,18 @@ def dashboard(request):
             job.status = "Pending"
             job.current_last_checked = None
 
-    return render(request, "cronly/dashboard.html", {"cronjobs": cronjobs})
+    return render(request, "cronly/dashboard.html", {"monitors": monitors})
 
 @login_required
-def new_cronjob(request):
+def new_monitor(request):
     if request.method == "POST":
-        form = CronJobForm(request.POST)
+        form = MonitorForm(request.POST)
         if form.is_valid():
             target = form.cleaned_data["target"]
             host = urlparse(target).netloc
             domain = host.split(":")[0].lstrip("www.")
 
-            job = CronJob.objects.create(
+            job = Monitor.objects.create(
                 target=domain,
                 interval_seconds=form.cleaned_data.get("interval_seconds", 300),
                 user=request.user,
@@ -66,20 +66,20 @@ def new_cronjob(request):
             )
             return redirect("cronly:dashboard")
     else:
-        form = CronJobForm()
+        form = MonitorForm()
 
-    return render(request, "cronly/new_cronjob.html", {"form": form})
+    return render(request, "cronly/new_monitor.html", {"form": form})
 
 @login_required
-def delete_cronjob(request, pk):
-    job = get_object_or_404(CronJob, id=pk, user=request.user)
+def delete_monitor(request, pk):
+    job = get_object_or_404(Monitor, id=pk, user=request.user)
 
     PeriodicTask.objects.filter(name=f"ping_job_{job.id}").delete()
 
-    redis_key = f"cronjob:{job.id}:pings"
+    redis_key = f"monitor:{job.id}:pings"
     redis_client.delete(redis_key)
 
     job.delete()
 
-    messages.success(request, "Cronjob deleted successfully.")
+    messages.success(request, "Monitor deleted successfully.")
     return redirect("cronly:dashboard")

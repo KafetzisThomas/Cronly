@@ -27,11 +27,11 @@
 
                     {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'cronly:dashboard' %}">All Cronjobs</a>
+                            <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'cronly:dashboard' %}">All Monitors</a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link {% if request.path == '/new' %}active{% endif %}" href="{% url 'cronly:new_cronjob' %}">New Cronjob</a>
+                            <a class="nav-link {% if request.path == '/new' %}active{% endif %}" href="{% url 'cronly:new_monitor' %}">New Monitor</a>
                         </li>
                     {% endif %}
                 </ul>
