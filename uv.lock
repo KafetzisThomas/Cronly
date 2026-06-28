@@ -142,6 +142,7 @@ dependencies = [
     { name = "django" },
     { name = "django-celery-beat" },
     { name = "django-crispy-forms" },
+    { name = "honcho" },
     { name = "python-dotenv" },
     { name = "pythonping" },
     { name = "redis" },
@@ -160,6 +161,7 @@ requires-dist = [
     { name = "django", specifier = ">=6.0.6" },
     { name = "django-celery-beat", specifier = ">=2.9.0" },
     { name = "django-crispy-forms", specifier = ">=2.6" },
+    { name = "honcho", specifier = ">=2.0.0" },
     { name = "python-dotenv", specifier = ">=1.2.2" },
     { name = "pythonping", specifier = ">=1.1.4" },
     { name = "redis", specifier = ">=8.0.1" },
@@ -236,6 +238,18 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/12/0b/22654abc2355f3b84e3e5b9d26569639c15d04b96d7186f3a477ec45c1ef/django_timezone_field-7.2.2.tar.gz", hash = "sha256:a004d0b19fe10bf5964cb21a65b36324b16a61879e4711c0dafdf8d6253e8ebc", size = 13158, upload-time = "2026-06-06T05:28:23.638Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/2b/5f/c8dfb67105c4ef391a3e9d0bcd35b7eae4c4c9d023d612c3999ae1cb32ef/django_timezone_field-7.2.2-py3-none-any.whl", hash = "sha256:30354d0f37462a0b9b5c289e271580a6be9b58dea30e7bf88435372882c8fa7a", size = 13322, upload-time = "2026-06-06T05:28:22.454Z" },
+]
+
+[[package]]
+name = "honcho"
+version = "2.0.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "colorama", marker = "sys_platform == 'win32'" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/65/c8/d860888358bf5c8a6e7d78d1b508b59b0e255afd5655f243b8f65166dafd/honcho-2.0.0.tar.gz", hash = "sha256:af3815c03c634bf67d50f114253ea9fef72ecff26e4fd06b29234789ac5b8b2e", size = 45618, upload-time = "2024-10-06T14:26:53.871Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/48/1c/25631fc359955569e63f5446dbb7022c320edf9846cbe892ee5113433a7e/honcho-2.0.0-py3-none-any.whl", hash = "sha256:56dcd04fc72d362a4befb9303b1a1a812cba5da283526fbc6509be122918ddf3", size = 22093, upload-time = "2024-10-06T14:26:52.181Z" },
 ]
 
 [[package]]
