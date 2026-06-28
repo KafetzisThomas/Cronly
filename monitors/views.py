@@ -36,7 +36,7 @@ def dashboard(request):
             job.status = "Pending"
             job.current_last_checked = None
 
-    return render(request, "cronly/dashboard.html", {"monitors": monitors})
+    return render(request, "monitors/dashboard.html", {"monitors": monitors})
 
 @login_required
 def new_monitor(request):
@@ -61,14 +61,14 @@ def new_monitor(request):
             PeriodicTask.objects.create(
                 interval=schedule,
                 name=f"ping_job_{job.id}",
-                task="cronly.tasks.ping_target",
+                task="monitors.tasks.ping_target",
                 args=json.dumps([job.id, domain])
             )
-            return redirect("cronly:dashboard")
+            return redirect("monitors:dashboard")
     else:
         form = MonitorForm()
 
-    return render(request, "cronly/new_monitor.html", {"form": form})
+    return render(request, "monitors/new_monitor.html", {"form": form})
 
 @login_required
 def delete_monitor(request, pk):
@@ -82,4 +82,4 @@ def delete_monitor(request, pk):
     job.delete()
 
     messages.success(request, "Monitor deleted successfully.")
-    return redirect("cronly:dashboard")
+    return redirect("monitors:dashboard")

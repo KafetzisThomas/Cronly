@@ -8,7 +8,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('cronly', '0004_alter_cronjob_interval_seconds'),
+        ('monitors', '0004_alter_cronjob_interval_seconds'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 

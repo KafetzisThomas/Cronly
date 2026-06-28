@@ -36,7 +36,7 @@ CSRF_TRUSTED_ORIGINS = os.getenv("CSRF_TRUSTED_ORIGINS", "https://127.0.0.1").sp
 
 INSTALLED_APPS = [
     # my apps
-    'cronly',
+    'monitors',
     'users',
     # third party apps
     "django_celery_beat",
@@ -143,5 +143,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Login and logout settings
 LOGIN_URL = "users:login"
-LOGIN_REDIRECT_URL = "cronly:dashboard"
+LOGIN_REDIRECT_URL = "monitors:dashboard"
 LOGOUT_REDIRECT_URL = "/"

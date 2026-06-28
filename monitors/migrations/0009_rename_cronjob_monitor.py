@@ -7,7 +7,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('cronly', '0008_remove_cronjob_avg_rtt_ms_and_more'),
+        ('monitors', '0008_remove_cronjob_avg_rtt_ms_and_more'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 

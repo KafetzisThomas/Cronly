@@ -14,7 +14,7 @@
     <!-- navbar start -->
     <nav class="navbar navbar-expand-lg bg-dark border-bottom border-body" data-bs-theme="dark">
         <div class="container">
-            <a class="navbar-brand" href="{% url 'cronly:dashboard' %}">Cronly</a>
+            <a class="navbar-brand" href="{% url 'monitors:dashboard' %}">Cronly</a>
 
             <button class="navbar-toggler navbar-dark" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -27,11 +27,11 @@
 
                     {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'cronly:dashboard' %}">All Monitors</a>
+                            <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'monitors:dashboard' %}">All Monitors</a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link {% if request.path == '/new' %}active{% endif %}" href="{% url 'cronly:new_monitor' %}">New Monitor</a>
+                            <a class="nav-link {% if request.path == '/new' %}active{% endif %}" href="{% url 'monitors:new_monitor' %}">New Monitor</a>
                         </li>
                     {% endif %}
                 </ul>

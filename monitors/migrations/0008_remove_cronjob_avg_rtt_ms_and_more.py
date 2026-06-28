@@ -6,7 +6,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('cronly', '0007_alter_cronjob_last_pinged_at_alter_cronjob_target'),
+        ('monitors', '0007_alter_cronjob_last_pinged_at_alter_cronjob_target'),
     ]
 
     operations = [

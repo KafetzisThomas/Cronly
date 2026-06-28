@@ -8,7 +8,7 @@
         <h4>New Monitor</h4>
         <hr class="border-dark">
 
-        <form action="{% url 'cronly:new_monitor' %}" method="POST">
+        <form action="{% url 'monitors:new_monitor' %}" method="POST">
             {% csrf_token %}
             {{ form|crispy }}
             <button type="submit" class="btn btn-info w-100">Save</button>
