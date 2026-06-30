@@ -139,9 +139,10 @@ STATIC_URL = '/static/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+SESSION_SAVE_EVERY_REQUEST = True
+AUTH_USER_MODEL = "users.CustomUser"
 
-# Login and logout settings
 LOGIN_URL = "users:login"
 LOGIN_REDIRECT_URL = "monitors:dashboard"
 LOGOUT_REDIRECT_URL = "/"
