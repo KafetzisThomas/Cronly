@@ -8,6 +8,7 @@
 - **Continuouss Monitoring:** Customizable URL ping intervals (minute to monthly).
 - **Real-time Dashboard:** Live status (Up/Down) and RTT (min,max,avg) tracking.
 - **Dynamic Scheduling:** Create, update or delete monitors.
+- **Discord Alerts:** Automated webhook notifications when a service goes offline.
 
 ## Database Schema
 
