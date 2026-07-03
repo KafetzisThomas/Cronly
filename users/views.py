@@ -35,7 +35,7 @@ def account(request):
             notification_form = DiscordWebhookForm(request.POST, instance=user)
             if notification_form.is_valid():
                 notification_form.save()
-                messages.success(request, "Notification settings updated.")
+                messages.success(request, "Discord Webhook URL updated.")
                 return redirect("users:account")
 
     context = {"username_form": username_form, "notification_form": notification_form}
