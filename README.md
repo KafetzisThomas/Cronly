@@ -1,6 +1,6 @@
 <div align="center">
-    <h1>Cronly</h1>
-    <p>A high-performance uptime monitoring tool.<br>Written in Python/Django</p>
+    <img src="static/favicon.png" width="150"/>
+    <p><strong>Cronly: </strong>A high-performance uptime monitoring tool.<br>Written in Python/Django</p>
 </div>
 
 ## Features
