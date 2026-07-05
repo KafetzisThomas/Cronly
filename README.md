@@ -5,8 +5,8 @@
 
 ## Features
 
-- **Continuouss Monitoring:** Customizable URL ping intervals (minute to monthly).
-- **Real-time Dashboard:** Live status (Up/Down) and RTT (min,max,avg) tracking.
+- **Continuous Monitoring:** Customizable HTTP/HTTPS check intervals (minute to monthly).
+- **Real-time Dashboard:** Live tracking of **status codes**, **DNS lookup time** and **HTTP response time**.
 - **Dynamic Scheduling:** Create, update or delete monitors.
 - **Discord Alerts:** Automated webhook notifications when a service goes offline.
 
