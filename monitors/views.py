@@ -22,7 +22,10 @@ def dashboard(request):
 
             job.ip_address = latest_check.get("ip_address")
             job.dns_time_ms = latest_check.get("dns_time_ms")
-            job.status = "Up" if latest_check.get("success") else "Down"
+            job.response_time_ms = latest_check.get("response_time_ms")
+
+            status_code = latest_check.get("http_status_code", "N/A")
+            job.http_status = "Error" if status_code == 0 else status_code
 
             # convert unix timestamp to readable format
             timestamp = latest_check.get("timestamp")
@@ -31,7 +34,8 @@ def dashboard(request):
         else:
             job.ip_address = "Pending"
             job.dns_time_ms = "Pending"
-            job.status = "Pending"
+            job.http_status = "Pending"
+            job.response_time_ms = "Pending"
             job.current_last_checked = None
 
     return render(request, "monitors/dashboard.html", {"monitors": monitors})
@@ -42,6 +46,8 @@ def new_monitor(request):
         form = MonitorForm(request.POST)
         if form.is_valid():
             target = form.cleaned_data["target"]
+            if not target.startswith(("http://", "https://")): target = "https://" + target
+
             host = urlparse(target).netloc
             domain = host.split(":")[0].lstrip("www.")
 
@@ -74,8 +80,7 @@ def delete_monitor(request, pk):
 
     PeriodicTask.objects.filter(name=f"check_job_{job.id}").delete()
 
-    redis_key = f"monitor:{job.id}:checks"
-    redis_client.delete(redis_key)
+    redis_client.delete(f"monitor:{job.id}:checks")
 
     job.delete()
 

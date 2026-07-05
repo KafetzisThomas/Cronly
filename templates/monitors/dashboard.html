@@ -34,6 +34,7 @@
                     <th>Status</th>
                     <th>IP Address</th>
                     <th>DNS Lookup</th>
+                    <th>Response Time</th>
                     <th>Started</th>
                     <th>Last Checked</th>
                     <th>Actions</th>
@@ -46,17 +47,18 @@
                         <td>{{ job.target }}</td>
 
                         <td>
-                            {% if job.status == 'Up' %}
-                                <span class="badge bg-success">Up</span>
-                            {% elif job.status == 'Down' %}
-                                <span class="badge bg-danger">Down</span>
-                            {% else %}
+                            {% if job.http_status == 'Error' %}
+                                <span class="badge bg-danger">{{ job.http_status }} | Down</span>
+                            {% elif job.http_status == 'Pending' %}
                                 <span class="badge bg-warning">Pending</span>
+                            {% else %}
+                                <span class="badge bg-success">{{ job.http_status }} | Up</span>
                             {% endif %}
                         </td>
 
                         <td>{{ job.ip_address }}</td>
                         <td>{{ job.dns_time_ms }}</td>
+                        <td>{{ job.response_time_ms }}</td>
                         <td>{{ job.created_at|date:"M. d, Y, h:i A" }}</td>
 
                         <td>
