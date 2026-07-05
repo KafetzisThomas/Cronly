@@ -31,12 +31,11 @@
             <thead class="table-dark">
                 <tr class="text-center text-nowrap">
                     <th>Target Host</th>
-                    <th>Avg Ping (ms)</th>
-                    <th>Min Ping (ms)</th>
-                    <th>Max Ping (ms)</th>
+                    <th>Status</th>
+                    <th>IP Address</th>
+                    <th>DNS Lookup</th>
                     <th>Started</th>
                     <th>Last Checked</th>
-                    <th>Status</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -45,18 +44,6 @@
                 {% for job in monitors %}
                     <tr class="text-center text-nowrap">
                         <td>{{ job.target }}</td>
-                        <td>{{ job.current_avg }}</td>
-                        <td>{{ job.current_min }}</td>
-                        <td>{{ job.current_max }}</td>
-                        <td>{{ job.created_at|date:"M. d, Y, h:i A" }}</td>
-
-                        <td>
-                            {% if job.current_last_checked %}
-                                {{ job.current_last_checked|date:"M. d, Y, h:i A" }}
-                            {% else %}
-                                Waiting for first run...
-                            {% endif %}
-                        </td>
 
                         <td>
                             {% if job.status == 'Up' %}
@@ -65,6 +52,18 @@
                                 <span class="badge bg-danger">Down</span>
                             {% else %}
                                 <span class="badge bg-warning">Pending</span>
+                            {% endif %}
+                        </td>
+
+                        <td>{{ job.ip_address }}</td>
+                        <td>{{ job.dns_time_ms }}</td>
+                        <td>{{ job.created_at|date:"M. d, Y, h:i A" }}</td>
+
+                        <td>
+                            {% if job.current_last_checked %}
+                                {{ job.current_last_checked|date:"M. d, Y, h:i A" }}
+                            {% else %}
+                                Waiting for first run...
                             {% endif %}
                         </td>
 

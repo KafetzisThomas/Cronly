@@ -267,7 +267,6 @@ dependencies = [
     { name = "honcho" },
     { name = "psycopg2-binary" },
     { name = "python-dotenv" },
-    { name = "pythonping" },
     { name = "redis" },
     { name = "requests" },
     { name = "uvicorn" },
@@ -292,7 +291,6 @@ requires-dist = [
     { name = "honcho", specifier = ">=2.0.0" },
     { name = "psycopg2-binary", specifier = ">=2.9.12" },
     { name = "python-dotenv", specifier = ">=1.2.2" },
-    { name = "pythonping", specifier = ">=1.1.4" },
     { name = "redis", specifier = ">=8.0.1" },
     { name = "requests", specifier = ">=2.34.2" },
     { name = "uvicorn", specifier = ">=0.49.0" },
@@ -549,15 +547,6 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/82/ed/0301aeeac3e5353ef3d94b6ec08bbcabd04a72018415dcb29e588514bba8/python_dotenv-1.2.2.tar.gz", hash = "sha256:2c371a91fbd7ba082c2c1dc1f8bf89ca22564a087c2c287cd9b662adde799cf3", size = 50135, upload-time = "2026-03-01T16:00:26.196Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/0b/d7/1959b9648791274998a9c3526f6d0ec8fd2233e4d4acce81bbae76b44b2a/python_dotenv-1.2.2-py3-none-any.whl", hash = "sha256:1d8214789a24de455a8b8bd8ae6fe3c6b69a5e3d64aa8a8e5d68e694bbcb285a", size = 22101, upload-time = "2026-03-01T16:00:25.09Z" },
-]
-
-[[package]]
-name = "pythonping"
-version = "1.1.4"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/b8/e5/6c12081f6be60648e6432dca495c3c048a096c9e719283270158256af69c/pythonping-1.1.4.tar.gz", hash = "sha256:acef84640fee6f20b725f2a1d2392771f2845554cfabcef30b1fdea5030161af", size = 21482, upload-time = "2022-10-25T10:36:26.838Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/08/d7/ac061f5010ae44604a091820c75e78edb8153214caf4519007cff812cd72/pythonping-1.1.4-py3-none-any.whl", hash = "sha256:dedd690e36cb8c69703175610cf6ce01ff0c2070b447cc64c31a82951c9a53f6", size = 16328, upload-time = "2022-10-25T10:36:24.961Z" },
 ]
 
 [[package]]

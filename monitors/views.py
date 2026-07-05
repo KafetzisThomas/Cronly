@@ -14,25 +14,23 @@ def dashboard(request):
     monitors = Monitor.objects.filter(user=request.user)
 
     for job in monitors:
-        redis_key = f"monitor:{job.id}:pings"
+        redis_key = f"monitor:{job.id}:checks"
 
-        latest_ping_json = redis_client.lindex(redis_key, 0)
-        if latest_ping_json:
-            latest_ping = json.loads(latest_ping_json)
+        latest_check_json = redis_client.lindex(redis_key, 0)
+        if latest_check_json:
+            latest_check = json.loads(latest_check_json)
 
-            job.current_avg = latest_ping.get("avg_rtt_ms")
-            job.current_min = latest_ping.get("min_rtt_ms")
-            job.current_max = latest_ping.get("max_rtt_ms")
-            job.status = "Up" if latest_ping.get("success") else "Down"
+            job.ip_address = latest_check.get("ip_address")
+            job.dns_time_ms = latest_check.get("dns_time_ms")
+            job.status = "Up" if latest_check.get("success") else "Down"
 
             # convert unix timestamp to readable format
-            timestamp = latest_ping.get("timestamp")
+            timestamp = latest_check.get("timestamp")
             if timestamp:
                 job.current_last_checked = datetime.fromtimestamp(timestamp)
         else:
-            job.current_avg = "Pending"
-            job.current_min = "Pending"
-            job.current_max = "Pending"
+            job.ip_address = "Pending"
+            job.dns_time_ms = "Pending"
             job.status = "Pending"
             job.current_last_checked = None
 
@@ -60,8 +58,8 @@ def new_monitor(request):
 
             PeriodicTask.objects.create(
                 interval=schedule,
-                name=f"ping_job_{job.id}",
-                task="monitors.tasks.ping_target",
+                name=f"check_job_{job.id}",
+                task="monitors.tasks.check_target",
                 args=json.dumps([job.id, domain])
             )
             return redirect("monitors:dashboard")
@@ -74,9 +72,9 @@ def new_monitor(request):
 def delete_monitor(request, pk):
     job = get_object_or_404(Monitor, id=pk, user=request.user)
 
-    PeriodicTask.objects.filter(name=f"ping_job_{job.id}").delete()
+    PeriodicTask.objects.filter(name=f"check_job_{job.id}").delete()
 
-    redis_key = f"monitor:{job.id}:pings"
+    redis_key = f"monitor:{job.id}:checks"
     redis_client.delete(redis_key)
 
     job.delete()
