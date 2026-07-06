@@ -45,3 +45,5 @@ uv run honcho start
 ```
 
 Access web application at `http://127.0.0.1:8000` or `http://localhost:8000`.
+
+> **Note for Windows users:** Honcho may leave background python processes running when stopped via `Ctrl+C`. Run `kill_zombie_processes.bat` to terminate them. Linux and Mac don't have this issue.
