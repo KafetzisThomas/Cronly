@@ -32,3 +32,23 @@ def check_http_status(domain):
         return {"success": False, "status_code": 0, "error": "Connection Refused / No Internet"}
     except requests.exceptions.RequestException as e:
         return {"success": False, "status_code": 0, "error": str(e)}
+
+def track_tcp_time(target, port=443):
+    """
+    Measure TCP 3 way handshake connection time to an IP address.
+    """
+    try:
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.settimeout(10.0)
+
+        start_time = time.perf_counter()
+        sock.connect((target, port))
+        end_time = time.perf_counter()
+
+        sock.close()
+
+        tcp_time_ms = (end_time - start_time) * 1000
+        return {"success": True, "tcp_time_ms": round(tcp_time_ms, 2)}
+
+    except (socket.timeout, ConnectionRefusedError, socket.error) as e:
+        return {"success": False, "tcp_time_ms": 0.0, "error": f"TCP Connection Failed: {str(e)}"}

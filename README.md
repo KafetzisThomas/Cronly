@@ -6,7 +6,7 @@
 ## Features
 
 - **Continuous Monitoring:** Customizable HTTP/HTTPS check intervals (minute to monthly).
-- **Real-time Dashboard:** Live tracking of **status codes**, **DNS lookup time** and **HTTP response time**.
+- **Real-time Dashboard:** Live tracking of **status codes**, **DNS lookup time**, **HTTP response time** and **TCP connection time**.
 - **Dynamic Scheduling:** Create, update or delete monitors.
 - **Discord Alerts:** Automated webhook notifications when a service goes offline.
 

@@ -23,6 +23,7 @@ def dashboard(request):
             job.ip_address = latest_check.get("ip_address")
             job.dns_time_ms = latest_check.get("dns_time_ms")
             job.response_time_ms = latest_check.get("response_time_ms")
+            job.tcp_time_ms = latest_check.get("tcp_time_ms")
 
             status_code = latest_check.get("http_status_code", "N/A")
             job.http_status = "Error" if status_code == 0 else status_code
@@ -36,6 +37,7 @@ def dashboard(request):
             job.dns_time_ms = "Pending"
             job.http_status = "Pending"
             job.response_time_ms = "Pending"
+            job.tcp_time_ms = "Pending"
             job.current_last_checked = None
 
     return render(request, "monitors/dashboard.html", {"monitors": monitors})

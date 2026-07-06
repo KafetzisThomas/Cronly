@@ -4,7 +4,7 @@ from celery import shared_task
 from main.redis_client import client as redis_client
 from monitors.models import Monitor
 from users.utils import send_discord_service_down_alert
-from .utils import track_dns_time, check_http_status
+from .utils import track_dns_time, check_http_status, track_tcp_time
 
 @shared_task
 def check_target(monitor_id, target_url):
@@ -18,8 +18,16 @@ def check_target(monitor_id, target_url):
     status_code = http_response.get("status_code", 0)
     response_time_ms = http_response.get("response_time_ms", 0.0)
 
+    if dns_success:
+        tcp_response = track_tcp_time(ip_address)
+        tcp_success = tcp_response.get("success", False)
+        tcp_time_ms = tcp_response.get("tcp_time_ms", 0.0)
+    else:
+        tcp_success = False
+        tcp_time_ms = 0.0
+
     # overall success
-    success = dns_success and http_success
+    success = dns_success and http_success and tcp_success
 
     redis_key = f"monitor:{monitor_id}:checks"
 
@@ -43,6 +51,7 @@ def check_target(monitor_id, target_url):
         "dns_time_ms": dns_time_ms,
         "http_status_code": status_code,
         "response_time_ms": response_time_ms,
+        "tcp_time_ms": tcp_time_ms,
         "success": success,
     }
     redis_client.lpush(redis_key, json.dumps(check_data))
